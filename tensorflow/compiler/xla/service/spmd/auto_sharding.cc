@@ -2182,9 +2182,9 @@ StatusOr<bool> AutoSharding::Run(
       pass_context::GetDoubleVector("auto_sharding::device_mesh_beta"),
       prof_result, solver_option);
 
-  // std::cerr << "===== Enter AutoSharding =====" << std::endl;
-  // std::cerr << module->ToString();
-  // std::cerr << "=====================================" << std::endl;
+  std::cerr << "===== Enter AutoSharding =====" << std::endl;
+  std::cerr << module->ToString();
+  std::cerr << "=====================================" << std::endl;
 
   // ----- Pre-process to normalize the dot dimensions -----
   TF_ASSIGN_OR_RETURN(bool changed, NormalizeDotDimension(module));
@@ -2246,8 +2246,11 @@ StatusOr<bool> AutoSharding::Run(
                            cluster_env, solver_option));
   AliasSet alias_set =
       BuildAliasSet(module, alias_analysis->dataflow_analysis(), strategy_map);
-  // std::cerr << PrintStrategyMap(strategy_map, sequence);
 
+  std::cerr << "===== Startegy Map =====" << std::endl;
+  std::cerr << PrintStrategyMap(strategy_map, sequence);
+  std::cerr << "=====================================" << std::endl;
+  
   // ----- Build cost graph and merge unimporant nodes -----
   CostGraph cost_graph(leaf_strategies, associative_dot_pairs);
   cost_graph.Simplify();
@@ -2279,9 +2282,9 @@ StatusOr<bool> AutoSharding::Run(
   SetHloSharding(sequence, strategy_map, cost_graph, s_val, cluster_env,
                  solver_option);
 
-  // std::cerr << "===== Exit AutoSharding =====" << std::endl;
-  // std::cerr << module->ToString();
-  // std::cerr << "=====================================" << std::endl;
+  std::cerr << "===== Exit AutoSharding =====" << std::endl;
+  std::cerr << module->ToString();
+  std::cerr << "=====================================" << std::endl;
 
   return true;
 }
